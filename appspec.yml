@@ -1,0 +1,30 @@
+version: 0.0
+os: linux
+files:
+  - source: spring-boot-web-jsp-1.0.war
+    destination: /home/ubuntu/java_app
+  - source: start.sh 
+    destination: /home/ubuntu/java_app
+  - source: stop.sh
+    destination: /home/ubuntu/java_app
+   
+permissions:
+  - object: /home/ubuntu/java_app
+    pattern: /home/ubuntu/java_app/*
+    owner: root
+    group: root
+    mode: 777
+hooks:
+  BeforeInstall:
+    - location: /home/ubuntu/java_app/stop.sh
+      timeout: 300
+      runas: root
+  ApplicationStart:
+    - location: /home/ubuntu/java_app/start.sh
+      timeout: 300
+      runas: root
+  ApplicationStop:
+    - location: /home/ubuntu/java_app/stop.sh
+      timeout: 300
+      runas: root
+
